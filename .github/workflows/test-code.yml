@@ -1,0 +1,48 @@
+name: Test Code
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+env:
+  GCP_PROJECT_ID: "paid-network-202104"
+  ZOMBIENET_VERSION: "v1.2.38"
+  POLKADOT_VERSION: "v0.9.22"
+
+jobs:
+  build-collator-image:
+    runs-on: ubuntu-20.04
+    steps:
+      #- name: Build a new collater build image
+      #  run: |
+      #    docker build -f docker/Dockerfile.build -t gcr.io/${{ env.GCP_PROJECT_ID }}/collator:buildtemplate .
+
+      #- name: Build a new image for Zombienet
+      #  run: |
+      #    docker build -f docker/Dockerfile.zombie -t gcr.io/${{ env.GCP_PROJECT_ID }}/collator:z1template .
+
+      #- name: Push Zombienet collator image
+      #  run: |
+      #    docker push gcr.io/${{ env.GCP_PROJECT_ID }}/collator:z1template
+      - name: Echo Test
+        run: echo "test1"
+
+      - name: Start minikube
+        uses: medyagh/setup-minikube@master
+      - name: Test local cluster
+        run: kubectl get pods -A
+
+      - name: Install Zombienet
+        run: |
+          wget https://github.com/paritytech/zombienet/releases/download/${{ env.ZOMBIENET_VERSION }}/zombienet-linux
+          chmod +x ./zombienet-linux
+
+      - name: Run Zombienet tests against the new Zombienet collator image
+        run: |
+          export POLKADOT_VERSION=${{env.POLKADOT_VERSION}}
+          export COLLATOR_VERSION=z1template
+          ./zombienet-linux -p kubernetes test zombienet/0001-small-network.feature

@@ -1,0 +1,31 @@
+[settings]
+enable_tracing = false
+
+[relaychain]
+default_image = "docker.io/parity/polkadot:v0.9.22"
+default_command = "polkadot"
+default_args = [ "-lparachain=debug" ]
+chain = "rococo-local"
+
+  [[relaychain.nodes]]
+  name = "alice"
+  validator = true
+
+  [[relaychain.nodes]]
+  name = "bob"
+  validator = true
+
+[[parachains]]
+id = 2000
+cumulus_based = true
+
+  [parachains.collator]
+  name = "collator01"
+  image = "gcr.io/paid-network-202104/collator:{{COLLATOR_VERSION}}"
+  command = "parachain-collator"
+  args = ["-lparachain=debug"]
+  
+[types.Header]
+number = "u64"
+parent_hash = "Hash"
+post_state = "Hash"

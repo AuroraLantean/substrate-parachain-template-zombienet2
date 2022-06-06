@@ -1,0 +1,48 @@
+FROM gcr.io/paid-network-202104/rust:2004ubuntu220530 AS builder
+ARG PROFILE=release
+
+WORKDIR /builds/collator
+COPY . /builds/collator
+
+RUN cargo build --locked --${PROFILE}
+
+RUN ls /builds/collator/
+RUN ls /builds/collator/target/
+RUN ls /builds/collator/target/release/
+
+# This image has to be the same as the base image for the builder above 
+FROM --platform=linux/amd64 docker.io/library/ubuntu:20.04
+
+COPY --from=builder /builds/collator/target/release/parachain-collator /usr/local/bin/
+
+RUN ls /usr/local/bin/
+
+# show backtraces
+ENV RUST_BACKTRACE 1
+
+# install tools and dependencies
+RUN apt-get update && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -y \
+  libssl1.1 \
+  ca-certificates && \
+  # apt cleanup
+  apt-get autoremove -y && \
+  apt-get clean && \
+  find /var/lib/apt/lists/ -type f -not -name lock -delete; \
+  # add user and link ~/.local/share/polkadot to /data
+  useradd -m -u 1000 -U -s /bin/sh -d /polkadot polkadot && \
+  mkdir -p /data /polkadot/.local/share && \
+  chown -R polkadot:polkadot /data && \
+  ln -s /data /polkadot/.local/share/polkadot
+
+USER polkadot
+
+# check if executable works in this container
+RUN /usr/local/bin/parachain-collator --version
+
+EXPOSE 30333 9933 9944 9615
+VOLUME ["/polkadot"]
+
+ENTRYPOINT ["/usr/local/bin/parachain-collator"]
+# docker build -f Dockerfile.zombie -t gcr.io/paid-network-202104/collator:z1template .
+# docker push gcr.io/paid-network-202104/collator:z1template

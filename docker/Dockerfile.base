@@ -1,0 +1,15 @@
+FROM --platform=linux/amd64 docker.io/library/ubuntu:20.04
+
+RUN apt update && apt install -y git clang curl libssl-dev llvm libudev-dev procps vim make wget build-essential
+RUN curl https://sh.rustup.rs -sSf >> install-rust.sh
+RUN chmod u+x install-rust.sh
+RUN ./install-rust.sh -y
+RUN PATH=$PATH:$HOME/.cargo/env
+SHELL ["bash", "-lc"]
+RUN rustup update
+RUN rustup update nightly
+RUN rustup target add wasm32-unknown-unknown --toolchain nightly
+
+CMD [ "tail", "-f", "/dev/null" ]
+# docker build -f Dockerfile.base -t gcr.io/paid-network-202104/rust:2004ubuntu220530 .
+# docker push gcr.io/paid-network-202104/rust:2004ubuntu220530
