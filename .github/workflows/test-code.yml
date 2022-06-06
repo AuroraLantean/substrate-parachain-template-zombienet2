@@ -38,8 +38,9 @@ jobs:
 
       - name: Install Zombienet
         run: |
-          wget https://github.com/paritytech/zombienet/releases/download/${{ env.ZOMBIENET_VERSION }}/zombienet-linux
-          chmod +x ./zombienet-linux
+          ls
+        #wget https://github.com/paritytech/zombienet/releases/download/${{ env.ZOMBIENET_VERSION }}/zombienet-linux
+        #  chmod +x ./zombienet-linux
 
       - name: Run Zombienet tests against the new Zombienet collator image
         run: |
