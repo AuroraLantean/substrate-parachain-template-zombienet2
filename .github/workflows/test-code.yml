@@ -45,4 +45,5 @@ jobs:
         run: |
           export POLKADOT_VERSION=${{env.POLKADOT_VERSION}}
           export COLLATOR_VERSION=z1template
+          ls zombienet/
           ./zombienet-linux -p kubernetes test zombienet/0001-small-network.feature
