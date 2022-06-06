@@ -17,6 +17,7 @@ jobs:
   build-collator-image:
     runs-on: ubuntu-20.04
     steps:
+      - uses: actions/checkout@v2
       #- name: Build a new collater build image
       #  run: |
       #    docker build -f docker/Dockerfile.build -t gcr.io/${{ env.GCP_PROJECT_ID }}/collator:buildtemplate .
