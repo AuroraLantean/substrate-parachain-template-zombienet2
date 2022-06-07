@@ -11,10 +11,10 @@ on:
 env:
   GCP_PROJECT_ID: "paid-network-202104"
   ZOMBIENET_VERSION: "v1.2.36"
-  POLKADOT_VERSION: "v0.9.21"
-  COLLATOR_VERSION: "z21"
-  #POLKADOT_VERSION: "v0.9.22"
-  #COLLATOR_VERSION: "z1template"
+  POLKADOT_VERSION: "v0.9.22"
+  COLLATOR_VERSION: "z1template"
+  #POLKADOT_VERSION: "v0.9.21"
+  #COLLATOR_VERSION: "z21"
 
 jobs:
   build-collator-image:
