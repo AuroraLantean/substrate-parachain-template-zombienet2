@@ -10,7 +10,7 @@ on:
 
 env:
   GCP_PROJECT_ID: "paid-network-202104"
-  ZOMBIENET_VERSION: "v1.2.38"
+  ZOMBIENET_VERSION: "v1.2.36"
   POLKADOT_VERSION: "v0.9.22"
 
 jobs:
@@ -29,8 +29,8 @@ jobs:
       #- name: Push Zombienet collator image
       #  run: |
       #    docker push gcr.io/${{ env.GCP_PROJECT_ID }}/collator:z1template
-      - name: Echo Test
-        run: echo "test1"
+      - name: Echo Test ls
+        run: ls
 
       - name: Start minikube
         uses: medyagh/setup-minikube@master
@@ -39,9 +39,8 @@ jobs:
 
       - name: Install Zombienet
         run: |
-          ls
-        #wget https://github.com/paritytech/zombienet/releases/download/${{ env.ZOMBIENET_VERSION }}/zombienet-linux
-        #  chmod +x ./zombienet-linux
+          wget https://github.com/paritytech/zombienet/releases/download/${{ env.ZOMBIENET_VERSION }}/zombienet-linux
+          chmod +x ./zombienet-linux
 
       - name: Run Zombienet tests against the new Zombienet collator image
         run: |

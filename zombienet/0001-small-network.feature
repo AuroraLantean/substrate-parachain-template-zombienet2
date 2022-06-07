@@ -1,8 +1,8 @@
 Description: Small Network test
-Network: ./0001-small-network-cumulus.toml
+Network: ./0001-small-network.toml
 Creds: config
 
-# to run this file: ./zombienet-linux -p kubernetes test zombienet/0001-small-network.feature
+# to run this file: zombienet-linux -p kubernetes test zombienet/0001-small-network.feature
 
 # well know functions
 alice: is up

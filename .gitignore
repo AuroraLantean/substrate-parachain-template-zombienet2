@@ -18,3 +18,4 @@
 .vscode
 zrun.sh
 zombienet-linux*
+*.log
