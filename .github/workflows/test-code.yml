@@ -11,7 +11,10 @@ on:
 env:
   GCP_PROJECT_ID: "paid-network-202104"
   ZOMBIENET_VERSION: "v1.2.36"
-  POLKADOT_VERSION: "v0.9.22"
+  POLKADOT_VERSION: "v0.9.21"
+  COLLATOR_VERSION: "z21"
+  #POLKADOT_VERSION: "v0.9.22"
+  #COLLATOR_VERSION: "z1template"
 
 jobs:
   build-collator-image:
@@ -45,6 +48,6 @@ jobs:
       - name: Run Zombienet tests against the new Zombienet collator image
         run: |
           export POLKADOT_VERSION=${{env.POLKADOT_VERSION}}
-          export COLLATOR_VERSION=z1template
+          export COLLATOR_VERSION=${{env.COLLATOR_VERSION}}
           ls zombienet/
           ./zombienet-linux -p kubernetes test zombienet/0001-small-network.feature
